@@ -3,6 +3,8 @@
 # Distributed under the Boost Software License, Version 1.0.
 # See accompanying file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt
 
+if(NOT DEFINED IDF_TARGET)
+
 # We support CMake 3.5, but prefer 3.16 policies and behavior
 cmake_minimum_required(VERSION 3.5...3.16)
 
@@ -67,3 +69,20 @@ if(ICU_FOUND)
 
 endif()
 
+else()
+
+FILE(GLOB_RECURSE headers include/*.h include/*.hpp)
+
+idf_component_register(
+    SRCS
+        ${headers}
+    INCLUDE_DIRS
+        include
+    REQUIRES
+        boost_config
+        boost_throw_exception
+        boost_predef
+        boost_assert
+)
+
+endif()
